@@ -1,3 +1,3 @@
 ﻿  main.cpp
-  Truck_Schedules.vcxproj -> D:\Desktop\pg\VisualStudio\projects\Truck_Schedules\Debug\Truck_Schedules.exe
-  Truck_Schedules.vcxproj -> D:\Desktop\pg\VisualStudio\projects\Truck_Schedules\Debug\Truck_Schedules.pdb (Partial PDB)
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall UpsCarrier::UpsCarrier(void)" (??0UpsCarrier@@QAE@XZ) referenced in function _main
+D:\Desktop\pg\VisualStudio\projects\Truck_Schedules\Debug\Truck_Schedules.exe : fatal error LNK1120: 1 unresolved externals

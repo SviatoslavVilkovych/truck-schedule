@@ -1,78 +1,92 @@
-// ver 1.
-//#include <string>
-//#include <list>
-//#include <iostream>
-//
-//enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday };
-//
-//class Carrier {
-//	std::string carrierName;
-//	std::list<std::list<Date>> weekSchedule;
-//
-//
-//};
-//
-//class Date {
-//	Day day;
-//	unsigned short int time;
-//
-//	void setDate(const Day &day_, const unsigned short &time_) { day = day; time = time_; };
-//};
-//
-//struct Pickup {
-//	Date data_time;
-//	Carrier carrier;
-//};
-//
-//
-//class Client {
-//	std::list<Carrier> carriers;
-//
-//public:
-//	void addCarrierSchedule(const Carrier& carrier) {};
-//	void findTwoNextPickups(tm data_time) {};
-//	//Client();
-//	//~Client();
-//
-//};
-
+// WHAT SHOULD I DO
+/*
+ * redefine constructors
+ * redefine get/set schedule
+ * change intTime to something more relavent
+ * provide realization of getNextPickUp
+ * write unit tests
+ */
+ 
 // ver 2.
 #include <string>
 #include <list>
 #include <iostream>
+
+using std::cout;
+using std::list;
+using std::string;
+const int DELAY_PICKUP_TIME = 3;
+const int PICKUP_AMOUNT = 2;
+
+enum Day { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+class Time {
+	
+public:
+	unsigned short int hour;
+	unsigned short int minutes;
+
+};
+class DateTime {
+	Day day;
+	Time time;
+	DateTime operator+(Time operand) const { DateTime temp; temp.time = this->time+operand.}
+};
 struct Pickup
 {
-	std::string carrierName;
+	string carrierName;
 	int time; // need change int to more relavent
+	Pickup(const string &name, int pickupTime) { carrierName = name; time = pickupTime; }
+	string getPickup() { return carrierName + ", " + std::to_string(time) + "\n"; }
 };
 class ICarrier
 {
-	std::string carrierName;
-	std::list<std::list<int>> carrierSchedule;
+protected:
+	string carrierName;
+	list<list<int>> carrierSchedule;
 public:
-	virtual void getCarrierSchedule() = 0;
-	virtual void setCarrierSchedule() = 0;
+	ICarrier() { cout << "ICarrier constuctor called\n"; }
+	virtual list<list<int>> getCarrierSchedule() = 0;
+	virtual void setCarrierSchedule(const list<list<int>> &newCarrierSchedule) = 0;
+	virtual ~ICarrier() { cout << "ICarrier destructor called\n"; };
 };
 
 class UpsCarrier : public ICarrier
 {
-	virtual void getCarrierSchedule() { std::cout << "Got!"; };
-	virtual void setCarrierSchedule() { std::cout << "WOW"; };
+public:
+	// temporary class
+	UpsCarrier() { cout << carrierName << std::endl << carrierSchedule.size() << std::endl; }
+	UpsCarrier(const string &name, const list<list<int>> &newCarrierSchedule) { carrierName = name;  carrierSchedule = newCarrierSchedule; };
+	virtual ~UpsCarrier() { cout << "UpsCarrier destructor called\n"; };
+	virtual list<list<int>> getCarrierSchedule() { return carrierSchedule; };
+	virtual void setCarrierSchedule(const list<list<int>> &newCarrierSchedule) { carrierSchedule = newCarrierSchedule; };
 };
 
-void getNextTwoPickups(const std::initializer_list<ICarrier*> &allowableCarriers, const unsigned int &delayFromNow = 3)
-{
-	for (auto carrier : allowableCarriers)
+class Client {
+	DateTime currentTime;
+public:
+	// Will be great to generalize allowableCarriers to any of containers.
+	list<Pickup> getNextPickups(const std::initializer_list<ICarrier*> &allowableCarriers, const unsigned int &amountOfPickups = PICKUP_AMOUNT, const unsigned int &delayFromNow = DELAY_PICKUP_TIME)
 	{
-		carrier->getCarrierSchedule();
-	}
-}
+		list<Pickup> nextPickups;
 
+		for (auto carrier : allowableCarriers)
+		{
+			auto weekendSchedule = carrier->getCarrierSchedule();
+		}
+	}
+};
 int main(int argv, char* argc)
 {
-	UpsCarrier A,B,C;
 
-	getNextTwoPickups({ &A, &B, &C });
+	ICarrier *C = new UpsCarrier();
+
+	list<Pickup> Z = getNextPickups({ C });
+	for (auto pickups : Z)
+	{
+		cout << pickups.getPickup();
+	}
+
+	delete C;
 
 	return 0;
 }
