@@ -1,13 +1,14 @@
-// WHAT SHOULD I DO
+// WHAT SHOULD I DO FIRSTLY:
 /*
- * finish realization of getNextPickUp
  * write unit tests
  * add comments
  * look at the code one more time and drop little tear...
  */
- 
-#include "header.h"
 
+#include "ICarrier.h"
+#include "DayTime.h"
+#include "Pickup.h"
+#include "StaticClient.h"
 
 int main(int argv, char* argc)
 {

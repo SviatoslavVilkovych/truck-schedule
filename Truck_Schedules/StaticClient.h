@@ -1,5 +1,16 @@
 #pragma once
-#include "header.h"
+#include "DayTime.h"
+#include "ICarrier.h"
+#include "Pickup.h"
+#include <list>
+#include <iostream>
+#include <ctime>
+
+using std::cout;
+using std::list;
+
+const int DELAY_PICKUP_TIME = 3;
+const int PICKUP_AMOUNT = 2;
 
 class StaticClient {
 	static DayTime currentTime;

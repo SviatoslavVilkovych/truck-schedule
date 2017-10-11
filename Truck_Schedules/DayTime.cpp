@@ -41,11 +41,11 @@ bool DayTime::operator<(const DayTime& operand) const
 	{
 		return true;
 	}
-	else if (this->hour < operand.hour)
+	else if ((this->hour < operand.hour)&&(this->day == operand.day))
 	{
 		return true;
 	}
-	else if (this->minute < operand.minute)
+	else if ((this->minute < operand.minute)&&(this->hour == operand.hour)&&(this->day == operand.day))
 	{
 		return true;
 	}

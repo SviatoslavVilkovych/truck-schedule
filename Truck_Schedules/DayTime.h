@@ -1,5 +1,8 @@
 #pragma once
-#include "header.h"
+#include <string>
+using std::string;
+
+enum class Days { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday };
 
 class DayTime {
 	Days day;
