@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "..\Truck_Schedules\header.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

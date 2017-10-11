@@ -139,7 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DayTime.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StaticClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DayTime.h" />
+    <ClInclude Include="header.h" />
+    <ClInclude Include="StaticClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
