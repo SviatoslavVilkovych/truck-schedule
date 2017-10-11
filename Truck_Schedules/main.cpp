@@ -31,7 +31,7 @@ public:
 
 	string toString();
 
-	DayTime(Days day = Days::Sunday, int hour = 0, int minute = 0) {};
+	DayTime(Days day_ = Days::Sunday, int hour_ = 0, int minute_ = 0) { day = day_; hour = hour_; minute = minute_; };
 	DayTime operator+(const DayTime& operand) const;
 	DayTime operator+(const int& hours) const;
 	DayTime operator=(const DayTime& operand);
@@ -165,10 +165,24 @@ list<Pickup> StaticClient::getNextPickups(const std::initializer_list<ICarrier*>
 		for (auto carrier : allowableCarriers)
 		{
 			auto weekendSchedule = carrier->getCarrierSchedule();
-			auto daySchedule = weekendSchedule.begin();
-			for (unsigned short int i = 0; (Days)i == searchFromDayTime.getDay(); ++daySchedule, ++i);
-			
-			// almost finished... D:
+			auto daysSchedule = weekendSchedule.begin();
+			for (unsigned short int i = 0; (Days)i == searchFromDayTime.getDay(); ++daysSchedule, ++i);
+			auto currentDaySchedule = daysSchedule->begin();
+			for (int numOfPickup = amountOfPickups; numOfPickup > 0; --numOfPickup, ++currentDaySchedule)
+			{
+				for (auto iNextPickups = nextPickups.begin(); iNextPickups != nextPickups.end(); ++iNextPickups)
+				{
+					// examine IF there is faster pickups AND IF this 'faster pickup' not faster then currentTime + delayFromNowTime
+					// IF it is faster THEN pop_back last (the slowest) pickup and insert the new one with stored order AND go try another pikcup
+					if (*currentDaySchedule < (*iNextPickups).time && searchFromDayTime < (*iNextPickups).time)
+					{
+						nextPickups.pop_back();
+						Pickup newPickup((*iNextPickups).carrierName, (*iNextPickups).time);
+						nextPickups.insert(iNextPickups, newPickup);
+						break;
+					}
+				}
+			}
 		}
 	}
 	catch (const std::system_error& e)
@@ -192,16 +206,28 @@ DayTime StaticClient::getCurrentTime()
 DayTime StaticClient::currentTime;
 int main(int argv, char* argc)
 {
-	ICarrier* C = new UpsCarrier();
-	
-	list<Pickup> nearestPickups = StaticClient::getNextPickups({C});
+	ICarrier* carrier = new UpsCarrier();
+	carrier->setCarrierName("UPS");
+	list<list<DayTime>> weekSchedule
+	{
+		{ new DayTime(Days::Monday,0,0), new DayTime(Days::Monday,12,0) },
+		{ new DayTime(Days::Tuesday,0,0), new DayTime(Days::Tuesday,12,0) },
+		{ new DayTime(Days::Wednesday,0,0), new DayTime(Days::Wednesday,12,0) },
+		{ new DayTime(Days::Thursday,0,0), new DayTime(Days::Thursday,12,0) },
+		{ new DayTime(Days::Friday,0,0), new DayTime(Days::Friday,12,0) },
+		{ new DayTime(Days::Saturday,12,0)},
+		{ new DayTime(Days::Saturday,12,0)}
+	};
+
+	carrier->setCarrierSchedule(weekSchedule);
+	list<Pickup> nearestPickups = StaticClient::getNextPickups({carrier});
 
 	for (auto pickup : nearestPickups)
 	{
 		cout << pickup.getPickup();
 	}
 
-	delete C;
+	delete carrier;
 
 	return 0;
 }
