@@ -19,4 +19,5 @@ public:
 	DayTime operator+(const int& hours) const;
 	DayTime operator=(const DayTime& operand);
 	bool operator<(const DayTime& operand) const;
+	bool operator==(const DayTime& operand) const;
 };

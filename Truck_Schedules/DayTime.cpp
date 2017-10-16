@@ -54,6 +54,10 @@ bool DayTime::operator<(const DayTime& operand) const
 		return false;
 	}
 }
+bool DayTime::operator==(const DayTime & operand) const
+{
+	return ((this->day == operand.day) && (this->hour == operand.hour) && (this->minute == operand.minute)) ? true : false;
+}
 string DayTime::toString()
 {
 	string temp;
