@@ -80,7 +80,7 @@ string DayTime::toString()
 		break;
 	}
 
-	temp += (" " + std::to_string(hour) + " " + std::to_string(minute));
+	temp += (", " + std::to_string(hour) + ":" + std::to_string(minute));
 
 	return temp;
 }
